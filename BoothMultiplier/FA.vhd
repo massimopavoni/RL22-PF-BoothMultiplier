@@ -10,7 +10,7 @@ entity FA is
 		CIN	: in	std_logic;
 		S		: out	std_logic;
 		COUT	: out	std_logic
-		);	
+	);
 end FA;
 
 -- Full adder architecture
