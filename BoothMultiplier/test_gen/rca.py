@@ -14,10 +14,12 @@ def sum(op):
         return s
 
 def main():
-    vals = random_sample(range(- 2 ** 15, 2 ** 15), 1024)
-    binvals = binary_values(vals, 16)
-    ops = list(product(vals, vals))
-    binops = list(product(binvals, binvals))
+    vals0 = random_sample(range(- 2 ** 15, 2 ** 15), 512)
+    vals1 = random_sample(range(- 2 ** 15, 2 ** 15), 512)
+    binvals0 = binary_values(vals0, 16)
+    binvals1 = binary_values(vals1, 16)
+    ops = list(product(vals0, vals1))
+    binops = list(product(binvals0, binvals1))
     sums = []
     for o in ops:
         sums.append(sum(o))
