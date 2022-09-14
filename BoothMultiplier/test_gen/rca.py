@@ -1,5 +1,5 @@
 from itertools import product
-from random import sample as random_sample
+from random import sample as random_sample, seed as random_seed
 
 from binary_values import binary_values
 
@@ -14,6 +14,7 @@ def sum(op):
         return s
 
 def main():
+    random_seed(0)
     vals0 = random_sample(range(- 2 ** 15, 2 ** 15), 512)
     vals1 = random_sample(range(- 2 ** 15, 2 ** 15), 512)
     binvals0 = binary_values(vals0, 16)
