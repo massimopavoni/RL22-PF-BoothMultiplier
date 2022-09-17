@@ -30,7 +30,7 @@ architecture STRUCT of RCA is
 	
 	signal C : std_logic_vector(N downto 0);
 begin
-	GEN: for I in 0 to N-1 generate
+	GEN : for I in 0 to N-1 generate
 		U : FA port map(
 			X		=> X(I),
 			Y		=> Y(I),

@@ -2,7 +2,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
--- Modified Booth encoder decoder entity
+-- Modified Booth encoder/decoder entity
 entity MBED is
 	port(
 		X	: in	std_logic_vector(1 downto 0);
@@ -11,7 +11,7 @@ entity MBED is
 	);
 end MBED;
 
--- Modified Booth encoder decoder architecture
+-- Modified Booth encoder/decoder architecture
 architecture RTL of MBED is
 begin
 	PP <= '0'		when Y = "000" or Y = "111" else 
