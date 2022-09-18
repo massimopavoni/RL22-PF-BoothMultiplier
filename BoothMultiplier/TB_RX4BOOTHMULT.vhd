@@ -32,7 +32,7 @@ architecture BEHAVIOR of TB_RX4BOOTHMULT is
  
 begin 
 	-- Instantiate the Unit Under Test (UUT)
-   UUT: TB_RX4BOOTHMULT port map (
+   UUT: RX4BOOTHMULT port map (
 		A => A,
 		B => B,
 		P => P
@@ -59,7 +59,7 @@ begin
 			A <= A_IN;
 			B <= B_IN;
 			
-			wait for 35ns;
+			wait for 32ns;
 			
 			write(LINE_OUT, P, left, 16);
 			writeline(FILE_SIM, LINE_OUT);

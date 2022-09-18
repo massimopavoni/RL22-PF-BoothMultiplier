@@ -52,6 +52,8 @@ architecture STRUCT of RX4BOOTHMULT is
 	type AI_ARRAY is array(PPN-2 downto 0) of std_logic_vector(ADDERW-1 downto 0);
 	signal AXS	: AI_ARRAY;
 	signal AYS	: AI_ARRAY;
+	-- Adders' input carries
+	signal ACS	: std_logic_vector(PPN-1 downto 0);
 	-- Intermediate adders' sums
 	type AS_ARRAY is array(PPN-2 downto 0) of std_logic_vector(ADDERW downto 0);
 	signal AS	: AS_ARRAY;
@@ -81,8 +83,7 @@ begin
 		port map(
 			X		=> AXS(0),
 			Y		=> AYS(0),
-			-- Add 2's complement bit if grouping identifies negative
-			CIN	=> MB(2),
+			CIN	=> ACS(0),
 			-- Sum goes at the start of intermediate sum
 			S		=> AS(0)(ADDERW-1 downto 0),
 			-- Output carry goes next in intermediate sum
@@ -93,6 +94,8 @@ begin
 	AXS(0) <= "0" & not PPS(0)(OP) & PPS(0)(OP) & PPS(0)(OP downto 0);
 	-- 1 on last FA, negate sign correction bit, add second PP, pad 2 LSBs with zeros
 	AYS(0) <= "1" & not PPS(1)(OP) & PPS(1)(OP-1 downto 0) & "00";
+	-- Add 2's complement bit if grouping identifies negative (but not for adding 0)
+	ACS(0) <= MB(2) and (not MB(1) or not MB(0));
 	-- 2 LSBs of sum already goes into output product
 	P(1 downto 0) <= AS(0)(1 downto 0);
 	
@@ -104,8 +107,7 @@ begin
 		port map(
 			X		=> AXS(I),
 			Y		=>	AYS(I),
-			-- Add 2's complement bit if grouping identifies negative
-			CIN	=> MB(I*2+2),
+			CIN	=> ACS(I),
 			-- Sum goes at the start of intermediate sum
 			S		=> AS(I)(ADDERW-1 downto 0),
 			-- Output carry goes next in intermediate sum
@@ -116,6 +118,8 @@ begin
 		AXS(I) <= "0" & not PPS(I+1)(OP) & PPS(I+1)(OP-1 downto 0) & "00";
 		-- Previous intermediate sum
 		AYS(I) <= "1" & AS(I-1)(ADDERW downto 2);
+		-- Add 2's complement bit if grouping identifies negative (but not for adding 0)
+		ACS(I) <= MB(I*2+2) and (not MB(I*2+1) or not MB(I*2));
 		-- 2 LSBs of sum already goes into output product
 		P((I*2+1) downto (I*2)) <= AS(I)(1 downto 0);
 	end generate;
@@ -127,12 +131,13 @@ begin
 		port map(
 			X		=> AS(PPN-2)(ADDERW-1 downto 2),
 			Y		=> (OP+1 downto 0 => '0'),
-			-- Add 2's complement bit if grouping identifies negative
-			CIN	=> MB(OP),
+			CIN	=> ACS(PPN-1),
 			-- Sum goes into output product
 			S		=> P(OP*2-1 downto OP-2),
 			-- Discard output carry
 			COUT	=> open
 		);
 	-- LASTADDER signals
+	-- Add 2's complement bit if grouping identifies negative (but not for adding 0)
+	ACS(PPN-1) <= MB(OP) and (not MB(OP-1) or not MB(OP-2));
 end STRUCT;
