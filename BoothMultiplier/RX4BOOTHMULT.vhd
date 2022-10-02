@@ -95,7 +95,7 @@ begin
 	-- 1 on last FA, negate sign correction bit, add second PP, pad 2 LSBs with zeros
 	AYS(0) <= "1" & not PPS(1)(OP) & PPS(1)(OP-1 downto 0) & "00";
 	-- Add 2's complement bit if grouping identifies negative (but not for adding 0)
-	ACS(0) <= MB(2) and (not MB(1) or not MB(0));
+	ACS(0) <= MB(2) and (MB(1) nand MB(0));
 	-- 2 LSBs of sum already goes into output product
 	P(1 downto 0) <= AS(0)(1 downto 0);
 	
@@ -119,7 +119,7 @@ begin
 		-- Previous intermediate sum
 		AYS(I) <= "1" & AS(I-1)(ADDERW downto 2);
 		-- Add 2's complement bit if grouping identifies negative (but not for adding 0)
-		ACS(I) <= MB(I*2+2) and (not MB(I*2+1) or not MB(I*2));
+		ACS(I) <= MB(I*2+2) and (MB(I*2+1) nand MB(I*2));
 		-- 2 LSBs of sum already goes into output product
 		P((I*2+1) downto (I*2)) <= AS(I)(1 downto 0);
 	end generate;
@@ -139,5 +139,5 @@ begin
 		);
 	-- LASTADDER signals
 	-- Add 2's complement bit if grouping identifies negative (but not for adding 0)
-	ACS(PPN-1) <= MB(OP) and (not MB(OP-1) or not MB(OP-2));
+	ACS(PPN-1) <= MB(OP) and (MB(OP-1) nand MB(OP-2));
 end STRUCT;
