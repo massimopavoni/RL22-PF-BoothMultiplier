@@ -67,14 +67,10 @@ begin
 		);
 	end generate;
 	-- MBEDGEN signals
-	-- Duplicate last multiplicand bit for sign correction
-	MA(OP+1)				<= A(OP-1);
-	MA(OP downto 1)	<= A;
-	-- Pad multiplicand LSB with 0
-	MA(0)					<= '0';
-	MB(OP downto 1)	<= B;
+	-- Duplicate last multiplicand bit for sign correction and pad LSB with 0
+	MA(OP+1 downto 0)	<= A(OP-1) & A & '0';
 	-- Pad multiplier LSB with 0 (for radix 4 grouping)
-	MB(0)					<= '0';
+	MB(OP downto 0)	<= B & '0';
 	
 	--------------------------------------------------------------------------------------------------------------------------------
 	
