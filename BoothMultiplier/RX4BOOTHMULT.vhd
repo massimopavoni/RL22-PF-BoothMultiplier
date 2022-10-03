@@ -45,7 +45,7 @@ architecture STRUCT of RX4BOOTHMULT is
 	signal MA	: std_logic_vector(OP+1 downto 0);
 	-- Modified multiplier input for Booth encoding
 	signal MB	: std_logic_vector(OP downto 0);
-	-- Partial products
+	-- Partial products outputs for Booth encoding/decoding
 	type PPS_ARRAY is array(PPN-1 downto 0) of std_logic_vector(OP downto 0);
 	signal PPS	: PPS_ARRAY;
 	-- Adders' inputs
