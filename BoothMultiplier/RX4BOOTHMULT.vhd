@@ -58,6 +58,8 @@ architecture STRUCT of RX4BOOTHMULT is
 	type AS_ARRAY is array(PPN-2 downto 0) of std_logic_vector(ADDERW downto 0);
 	signal AS	: AS_ARRAY;
 begin
+	--------------------------------------------------------------------------------------------------------------------------------
+
 	-- Booth encoding/decoding network generation
 	MBEDGEN : for I in 0 to (PPN*(OP+1))-1 generate
 		ED : MBED port map(
@@ -136,4 +138,6 @@ begin
 	-- LASTADDER signals
 	-- Add 2's complement bit if grouping identifies negative (but not for adding 0)
 	ACS(PPN-1) <= MB(OP) and (MB(OP-1) nand MB(OP-2));
+	
+	--------------------------------------------------------------------------------------------------------------------------------
 end STRUCT;
