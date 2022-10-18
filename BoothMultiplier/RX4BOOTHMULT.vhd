@@ -77,7 +77,7 @@ begin
 	--------------------------------------------------------------------------------------------------------------------------------
 	
 	-- First peculiar adder
-	FIRSTADDER : RCA generic map(OP+4)
+	FIRSTADDER : RCA generic map(ADDERW)
 		port map(
 			X		=> AXS(0),
 			Y		=> AYS(0),
@@ -101,7 +101,7 @@ begin
 	
 	-- Subsequent adders generation
 	ADDERGEN : for I in 1 to PPN-2 generate
-		ADDER : RCA generic map(OP+4)
+		ADDER : RCA generic map(ADDERW)
 		port map(
 			X		=> AXS(I),
 			Y		=>	AYS(I),
