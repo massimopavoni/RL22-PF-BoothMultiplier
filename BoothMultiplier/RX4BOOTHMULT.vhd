@@ -16,6 +16,13 @@ end RX4BOOTHMULT;
 
 -- Radix-4 Booth multiplier architecture
 architecture STRUCT of RX4BOOTHMULT is
+	component MBED is
+		port(
+			X	: in	std_logic_vector(1 downto 0);
+			Y	: in	std_logic_vector(2 downto 0);
+			PP	: out	std_logic
+		);
+	end component;
 	component RCA is
 		generic(
 			N : natural
@@ -26,13 +33,6 @@ architecture STRUCT of RX4BOOTHMULT is
 			CIN	: in	std_logic;
 			S		: out	std_logic_vector(N-1 downto 0);
 			COUT	: out	std_logic
-		);
-	end component;
-	component MBED is
-		port(
-			X	: in	std_logic_vector(1 downto 0);
-			Y	: in	std_logic_vector(2 downto 0);
-			PP	: out	std_logic
 		);
 	end component;
 	
