@@ -1,2 +1,2 @@
 # RL22-PF-BoothMultiplier
-Repository for Logic Networks exam final test.
+Repository for Digital Logic Networks exam final test.
